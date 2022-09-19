@@ -1,25 +1,44 @@
-import logo from './logo.svg';
+import { useEffect } from 'react';
 import './App.css';
 
-function App() {
+import { connect } from 'react-redux';
+import { Col } from 'antd';
+import Sercher from './components/Searcher';
+import PokemonList from './components/PokemonList';
+import { getPokemons } from './api/getPokemons';
+import { setPokemons as setPokemonsActions } from './actions/actions';
+
+const App = ({ pokemons, setPokemons }) => {
+  useEffect(() => {
+    const fetchPokemons = async () => {
+      const pokemons = await getPokemons();
+      setPokemons(pokemons);
+    };
+    fetchPokemons();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Col span={4} offset={10}>
+        <img
+          src="https://raw.githubusercontent.com/musartedev/curso-redux/27298f5dd3e37caf2a90a7a82580cd2905fcab31/src/statics/logo.svg"
+          alt="logo"
+        />
+      </Col>
+      <Col span={8} offset={8}>
+        <Sercher />
+      </Col>
+      <PokemonList pokemons={pokemons} />
     </div>
   );
-}
+};
 
-export default App;
+const mapStateToProps = (state) => ({
+  pokemons: state.pokemos,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setPokemons: (value) => dispatch(setPokemonsActions(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
