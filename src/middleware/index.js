@@ -1,9 +1,9 @@
-export const logger = (state) => (next) => (action) => {
-  console.log(action, state);
+export const logger = (store) => (next) => (action) => {
+  console.log(action);
   next(action);
 };
 
-export const featured = (state) => (next) => (actionInfo) => {
+export const featured = (_state) => (next) => (actionInfo) => {
   const feared = [{ name: 'john' }, ...actionInfo.action.payload];
   const actionUpdated = {
     ...actionInfo,

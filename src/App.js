@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Col } from 'antd';
 import Sercher from './components/Searcher';
 import PokemonList from './components/PokemonList';
-import { getPokemons } from './api/getPokemons';
+import { getPokemons, getPokemosDetail } from './api/getPokemons';
 import { setPokemons as setPokemonsActions } from './actions/actions';
 
 const App = () => {
@@ -15,7 +15,10 @@ const App = () => {
   useEffect(() => {
     const fetchPokemons = async () => {
       const pokemons = await getPokemons();
-      dispatch(setPokemonsActions(pokemons));
+      const pokemonsDetail = await Promise.all(
+        pokemons.map((pokemon) => getPokemosDetail(pokemon))
+      );
+      dispatch(setPokemonsActions(pokemonsDetail));
     };
     fetchPokemons();
   }, [dispatch]);
