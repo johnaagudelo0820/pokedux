@@ -7,7 +7,7 @@ export const PokemonCard = ({ name, image }) => {
   return (
     <Card
         title={name}
-        cover={<img src={image} alt='Dito' />}
+        cover={<img src={image} alt={name} />}
         extra={<StarOutlined />}
     >
         <Meta description="fire, magig" />
