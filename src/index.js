@@ -9,14 +9,14 @@ import {
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import { pokemonReducer } from './reducers/pokemons';
+import rootReducer from './reducers/rootReducer';
 // import { logger } from './middleware';
 
 const composeAlt = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const composedEnhancers = composeAlt(applyMiddleware(thunk));
 
-const store = createStore(pokemonReducer, composedEnhancers);
+const store = createStore(rootReducer, composedEnhancers);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
