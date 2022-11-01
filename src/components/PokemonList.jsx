@@ -6,11 +6,11 @@ import './PokemonList.css'
 const PokemonList = ({ pokemons }) => {
   return (
     <div className="PokemonList">
-        {pokemons.map(pokemon => (
+        {pokemons?.map(pokemon => (
             <PokemonCard
               name={pokemon.name}
               key={pokemon.name}
-              image={pokemon.sprites.front_default}
+              image={pokemon.sprites?.front_default}
               types={pokemon.types}
               id={pokemon.id}
               isFavorite={pokemon.favorite}

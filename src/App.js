@@ -3,27 +3,17 @@ import './App.css';
 
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Col, Spin } from 'antd';
-import Sercher from './components/Searcher';
+import Searcher from './components/Searcher';
 import PokemonList from './components/PokemonList';
-import { getPokemons } from './api/getPokemons';
-import { getPokemonsWithDetails, setLoading } from './actions/actions';
+import { fetchPokemonsWithDetails } from './slices/dataSlice';
 
 const App = () => {
-  const pokemons = useSelector((state) =>
-    state.getIn(['data', 'pokemons'], shallowEqual).toJS()
-  );
-  const loading = useSelector((state) => state.getIn(['ui', 'loading']));
+  const pokemons = useSelector((state) => state.data.pokemons, shallowEqual);
+  const loading = useSelector((state) => state.ui.loading);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchPokemons = async () => {
-      dispatch(setLoading(true));
-      const pokemons = await getPokemons();
-
-      dispatch(getPokemonsWithDetails(pokemons));
-      dispatch(setLoading(false));
-    };
-    fetchPokemons();
+    dispatch(fetchPokemonsWithDetails());
   }, [dispatch]);
 
   return (
@@ -35,7 +25,7 @@ const App = () => {
         />
       </Col>
       <Col span={8} offset={8}>
-        <Sercher />
+        <Searcher />
       </Col>
       {loading ? (
         <Col offset={12}>
